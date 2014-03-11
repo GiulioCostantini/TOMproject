@@ -27,7 +27,7 @@ collapse_PCA<-function(data, N = NULL, rep = 1000, quantile = .95, rotate = "obl
   if("parallel"%in%stoppingrule_pca)
   {
     ev <- eigen(cor(data, use="pairwise.complete.obs")) # get eigenvalues
-    pa <- parallel(subject=nrow(data),var=ncol(data), rep=rep, quantile=quantile, model="components")
+    pa <- nFactors::parallel(subject=nrow(data),var=ncol(data), rep=rep, quantile=quantile, model="components")
     nS <- nScree(x=ev$values, aparallel=pa$eigen$qevpea)
     nfac<-nS$Components$nparallel
     pca<-principal(data, nfactors = nfac, rotate=rotate)  
