@@ -1,12 +1,11 @@
 # scree test and parallel analysis in one command
 collapse_PCA<-function(data, N = NULL, rep = 1000, quantile = .95, rotate = "oblimin", stoppingrule_pca = c("easystop", "parallel"))
 {  
-  require(nFactors)
   module <- list()
   
   if("easystop" %in% stoppingrule_pca)
   {
-    pca <- principal(data, nfac = N, rotate = rotate)  
+    pca <- principal(data, nfactors = N, rotate = rotate)  
     load <- pca$loadings
     # assign each node to the module according to its highest loading
     mod <- (abs(load) == apply(abs(load), 1, max))
@@ -31,7 +30,7 @@ collapse_PCA<-function(data, N = NULL, rep = 1000, quantile = .95, rotate = "obl
     pa <- parallel(subject=nrow(data),var=ncol(data), rep=rep, quantile=quantile, model="components")
     nS <- nScree(x=ev$values, aparallel=pa$eigen$qevpea)
     nfac<-nS$Components$nparallel
-    pca<-principal(data, nfac=nfac, rotate=rotate)  
+    pca<-principal(data, nfactors = nfac, rotate=rotate)  
     load<-pca$loadings
     mod<-(abs(load)==apply(abs(load), 1, max))
     

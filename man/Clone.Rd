@@ -23,8 +23,8 @@ Clone(pcm, assi, n = 1000, furthersharedvar = 1, rndvar = 0, p = 1, keeporig = F
   \item{rndvar}{Numeric in [0,1]. Portion of the variance of the clones that will be composed by random noise. See details.
 }
   \item{p}{Numeric in [0,1]. Probability that a neighbor is considered in the process of clonation.
-  
-  \item{keeporig}. Logical. Should the original nodes be preserved in the cloned network.
+  }
+  \item{keeporig}{Logical. Should the original nodes be preserved in the cloned network.
 }
 }
 \details{
@@ -154,4 +154,5 @@ title(sub = ".5 duplicate .5 samemat")
 net50 <- Clone(pcm=pcm, assi=assi, n=1000, rndvar=0, furthersharedvar=0, p=.5)
 qgraph(cor(net50$cloned), layout = "spring", colors = adegenet::fac2col(assignments), labels = assignments)
 title(sub = "half predictors by clone")
+}
 }
