@@ -19,7 +19,7 @@ collapse_PCA(data, N = NULL, rep = 1000, quantile = 0.95, rotate = "oblimin", st
 }
   \item{quantile}{Numeric in [0,1]. Quantile for the parallel analysis. Conventional values are .95 or .99.}
   \item{rotate}{Character string. The kind of rotation. An "oblimin" rotation is suggested.}
-  \item{stoppingrule_pca}{Character vector. Specify the stopping rule to determine the number of components. Can be one or both of "easystop" and "parallel".
+  \item{stoppingrule_pca}{Vector of strings. Specify the stopping rule to determine the number of components. Can be one or both of "easystop" and "parallel".
 }
 }
 \details{

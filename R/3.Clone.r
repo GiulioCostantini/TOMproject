@@ -19,6 +19,9 @@ clean <- function(x, y = NULL, itself = TRUE)
   # if y = NULL, cleans only the x variables from one another.
   
   if(is.null(dim(x)[2])) x <- matrix(x, ncol=1)
+  if(is.null(dim(y)[2])) y <- matrix(y, ncol=1)
+  
+  y <- y[,!apply(apply(y, 2, is.na),2,any)] #remove NA columns from Y
   
   # clean from y
   if(!is.null(y))
@@ -66,7 +69,7 @@ Clone <- function(pcm, assi, n = 1000, furthersharedvar = 1, rndvar = 0, p = 1, 
     fitval <- fit$fitted.values
     residualval <- fit$residuals
     R2 <- var(fitval)
- 
+    
     if(p == 1)
     {
       fitmat <- matrix(rep(fitval, assi[i]), ncol = assi[i], nrow = n, byrow = FALSE)
@@ -91,12 +94,20 @@ Clone <- function(pcm, assi, n = 1000, furthersharedvar = 1, rndvar = 0, p = 1, 
       # clones have the same variance, the variance of all the columns of
       # fitmat is transformed into R2, by adding a random component to each,
       # of variance = "extravariance".
+      
+      tol = 1e-15
       extravariance <- R2 - apply(fitmat,2,var)
-      rndmat <- matrix(rnorm(n*assi[i]), ncol=assi[i], nrow = n)
-      rndmat <- clean(rndmat, cbind(y[,set>=i], y.cloned[,assignments < i], fitmat))
-      rndmat <- scale(rndmat)[,]
-      rndmat <- t(t(rndmat)*sqrt(extravariance))
-      fitmat <- fitmat + rndmat
+      tocorrect <- (1:length(extravariance))[extravariance > tol]
+      if(length(tocorrect) > 0)
+      {
+        extravariance <- extravariance[tocorrect]
+        extraSDs <- sqrt(extravariance)
+        rndmat <- matrix(rnorm(n*length(tocorrect)), ncol=length(tocorrect), nrow = n)
+        rndmat <- clean(rndmat, cbind(y[,set>=i], y.cloned[,assignments < i], fitmat))
+        rndmat <- scale(rndmat)[,]
+        rndmat <- t(t(rndmat)*extraSDs)
+        fitmat[,tocorrect] <- fitmat[,tocorrect] + rndmat
+      }
     }
     
     # Further decompose the residual variance

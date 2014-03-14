@@ -1,5 +1,5 @@
 # scree test and parallel analysis in one command
-collapse_PCA<-function(data, N = NULL, rep = 1000, quantile = .95, rotate = "oblimin", stoppingrule_pca = c("easystop", "parallel"))
+collapse_PCA<-function(data, N = NULL, rep = 1000, quantile = .95, rotate = "oblimin", stoppingrule_pca = c("easystop", "parallel", "optimal"))
 {  
   module <- list()
   
