@@ -19,13 +19,11 @@ clean <- function(x, y = NULL, itself = TRUE)
   # if y = NULL, cleans only the x variables from one another.
   
   if(is.null(dim(x)[2])) x <- matrix(x, ncol=1)
-  if(is.null(dim(y)[2])) y <- matrix(y, ncol=1)
-  
-  y <- y[,!apply(apply(y, 2, is.na),2,any)] #remove NA columns from Y
-  
-  # clean from y
+ # clean from y
   if(!is.null(y))
   {
+    if(is.null(dim(y)[2])) y <- matrix(y, ncol=1)
+    y <- y[,!apply(apply(y, 2, is.na),2,any)] #remove NA columns from Y
     fit <- lm(x~y)
     x_pure <- fit$residuals
   } else x_pure <- x
