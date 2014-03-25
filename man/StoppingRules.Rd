@@ -22,6 +22,9 @@ The original data matrix, observations by variables (clusters of variables are c
 Method for hierarchical cluster analysis, for the moment only method "average" has been tested.
 }
 }
+\details{
+The rule "easystop" means that the correct number of clusters is considered, the rule "optimal" means that the number of clusters with the highest value of adjusted rand index is considered.
+}
 
 \value{
 \item{clusterings}{A matrix of clusterings, an element by row, a stopping rule by column}

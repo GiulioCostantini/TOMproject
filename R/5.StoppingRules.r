@@ -26,11 +26,11 @@ StoppingRules <- function(dist, data, method = "average")
   clusterings[,"cutTree_1"] <- dynamicTreeCut::cutreeDynamicTree(dendro=tree, deepSplit=TRUE, minModuleSize=2)
   values["index","cutTree_1"] <- "cutTree_1"
   values["deepSplit","cutTree_1"] <- TRUE
-  values["Hybrid", nm] <- FALSE
+  values["Hybrid", "cutTree_1"] <- FALSE
   clusterings[,"cutTree_2"] <- dynamicTreeCut::cutreeDynamicTree(dendro=tree, deepSplit=FALSE, minModuleSize=2)
   values["index","cutTree_2"] <- "cutTree_2"
   values["deepSplit","cutTree_2"] <- FALSE
-  values["Hybrid", nm] <- FALSE
+  values["Hybrid", "cutTree_2"] <- FALSE
   # cutreeHybrid
   x <- c(.01, .10, .19, .28, .37, .46, .55, .64, .73, .82, .91, .99)
   hmin <- min(tree$height)
@@ -100,7 +100,46 @@ StoppingRules <- function(dist, data, method = "average")
       }
     }
   }
+  
+  # easystop
+  values["index","easystop"] <- "easystop"
+  clusterings[,"easystop"] <- cutree(tree, k = length(assi))
+  
+  # optimal
+  values["index", "optimal"] <- "optimal"
+  optclust <- rep(1, sum(assi))
+  rand <- adjustedRandIndex(assignments, optclust)
+  
+  assignments <- c()
+  for(i in 1:length(assi)) assignments <- c(assignments, rep(i, assi[i]))
+  
+  for(i in 2:sum(assi))
+  {
+    clust <- cutree(tree, k = i)
+    rand2 <- adjustedRandIndex(assignments, clust)
+    if(rand2 > rand)
+    {
+      optclust <- clust
+      rand <- rand2
+    }
+  }
+  clusterings[,"optimal"] <-optclust
+  
+  # when an object is not assigned by dynamic tree cut, it is turned into zero
+  # we define instead a single-object cluster
+  fixclusterings <- function(x)
+  {
+    if(sum(x == 0) >= 1)
+    {
+      frm <- max(x)+1
+      to <- frm + sum(x == 0) -1
+      x[x == 0] <- seq(from = frm, to = to, by = 1)
+    }
+    x
+  }
+  
+  clusterings <- apply(clusterings, 2, fixclusterings)
+  
   list("clusterings" = clusterings, "values" = values)  
 }
-
 
