@@ -2,7 +2,7 @@
 \alias{TOM}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-Variations on Topological Distance Matrix (opposite of the Topological Overlap Matrix).
+Variations on Topological dissimilarity Matrix (opposite of the Topological Overlap Matrix).
 }
 \description{
 Compute several variations of the (opposite of the) Topological Overlap Matrix (Zhang & Horvath, 2005).
@@ -32,7 +32,7 @@ TOM(data, TOMType="signed", TOMDenom = "mean", squared = FALSE, TOMPCA = FALSE, 
 \details{
 %%  ~~ If necessary, more details than the description above ~~
 }
-\value{A matrix, each element i,j including the topological distance between a pair of elements.
+\value{A matrix, each element i,j including the topological dissimilarity between a pair of elements.
 }
 
 \references{
