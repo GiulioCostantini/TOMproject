@@ -4,7 +4,7 @@ Title: Simulation of Topological Overlap
 Version: 0.1
 Date: 2014-03-04
 Author: Giulio Costantini
-Depends: qgraph, igraph, sna, psych, corpcor, WGCNA, nFactors, Matrix, mclust
+Depends: qgraph, igraph, sna, psych, corpcor, WGCNA, nFactors, Matrix, mclust, dynamicTreeCut
 Maintainer: Giulio Costantini <costantinigiulio@gmail.com>
 Description: Simulation of Topological Overlap
 License: GPL-2
