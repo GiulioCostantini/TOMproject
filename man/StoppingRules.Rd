@@ -12,15 +12,13 @@ StoppingRules(dist, data, method = "average")
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
-  \item{dist}{
-A matrix of distances, given as a matrix, not as a dist object.
+  \item{dist}{A matrix of distances, given as a matrix, not as a \code{dist} object.
 }
-  \item{data}{
-The original data matrix, observations by variables (clusters of variables are created).
+  \item{data}{Data frame. The original data matrix, observations by variables (clusters of variables are created).
 }
-  \item{method}{
-Method for hierarchical cluster analysis, for the moment only method "average" has been tested.
+  \item{method}{String. Method for hierarchical cluster analysis, for the moment only method "average" has been tested.
 }
+\item{rule}{String vector. Can include one or more of \code{"static"}, \code{"dynamic"}, \code{"optimal"}. If \code{"static"} is present, the stopping rules implemented in the modified version of NbClust are included (they are very slow). If \code{"dynamic"} is present, the stopping rules in the package \code{\link[dynamicTreeCut]{dynamicTreeCut}} are included, finally if \code{"optimal"is present, the rules "easystop" and "optimal" are included} }
 }
 \details{
 The rule "easystop" means that the correct number of clusters is considered, the rule "optimal" means that the number of clusters with the highest value of adjusted rand index is considered.

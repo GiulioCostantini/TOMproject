@@ -1,13 +1,13 @@
-StoppingRules <- function(dist, data, method = "average")
+StoppingRules <- function(dist, data, method = "average", rule = c("static", "dynamic", "optimal"))
 {
-  require(dynamicTreeCut)
-  
   tree <- hclust(d=as.dist(dist), method=method)
   clusterings <- data.frame(matrix(nrow = ncol(data), ncol =0))
   values <- data.frame(matrix(nrow = 12, ncol=0, dimnames=list(c(
     "index", "value", "Hybrid", "pamStage", "pamRespectsDendro", "useMedioids",
     "respectSmallClusters", "maxPAMdist", "x", "deepSplit", "dmax", "gmin"), c())))
   
+  if("static" %in% rule)
+  {
   NBC <- NbClust_mod(data=t(data), diss = as.dist(dist), min.nc=1,
                      max.nc=ncol(data)-1, index="alllong", method = method)
   
@@ -21,7 +21,9 @@ StoppingRules <- function(dist, data, method = "average")
     values["index", nm] <- nm
     values["value", nm] <- index
   }
-  
+  }
+  if("dynamic" %in% rule)
+  {
   # cutreeDynamicTree
   clusterings[,"cutTree_1"] <- dynamicTreeCut::cutreeDynamicTree(dendro=tree, deepSplit=TRUE, minModuleSize=2)
   values["index","cutTree_1"] <- "cutTree_1"
@@ -100,31 +102,36 @@ StoppingRules <- function(dist, data, method = "average")
       }
     }
   }
-  
-  # easystop
-  values["index","easystop"] <- "easystop"
-  clusterings[,"easystop"] <- cutree(tree, k = length(assi))
-  
-  # optimal
-  values["index", "optimal"] <- "optimal"
-  optclust <- rep(1, sum(assi))
-  rand <- adjustedRandIndex(assignments, optclust)
-  
-  assignments <- c()
-  for(i in 1:length(assi)) assignments <- c(assignments, rep(i, assi[i]))
-  
-  for(i in 2:sum(assi))
-  {
-    clust <- cutree(tree, k = i)
-    rand2 <- adjustedRandIndex(assignments, clust)
-    if(rand2 > rand)
-    {
-      optclust <- clust
-      rand <- rand2
-    }
   }
-  clusterings[,"optimal"] <-optclust
+  if("optimal" %in% rule)
+  {
+    # easystop
+    values["index","easystop"] <- "easystop"
+    clusterings[,"easystop"] <- cutree(tree, k = length(assi))
+    
+    # optimal
+    values["index", "optimal"] <- "optimal"
+    optclust <- rep(1, sum(assi))
+    rand <- adjustedRandIndex(assignments, optclust)
+    
+    assignments <- c()
+    for(i in 1:length(assi)) assignments <- c(assignments, rep(i, assi[i]))
+    
+    for(i in 2:sum(assi))
+    {
+      clust <- cutree(tree, k = i)
+      rand2 <- adjustedRandIndex(assignments, clust)
+      if(rand2 > rand)
+      {
+        optclust <- clust
+        rand <- rand2
+      }
+    }
+    clusterings[,"optimal"] <-optclust
+    
+  }
   
+   
   # when an object is not assigned by dynamic tree cut, it is turned into zero
   # we define instead a single-object cluster
   fixclusterings <- function(x)
