@@ -1,7 +1,7 @@
 #######################################################################
 # FUNCTIONS FOR ASSIGNING A NUMBER OF CLONES TO EACH GENERATING NODE #
 #######################################################################
-Assign<-function(N, N2, method_assign = c("unif", "pwr", "beta"), pwr = 1, shape1 = .1, shape2 = 1)
+Assign <- function(N, N2, method_assign = c("unif", "pwr", "beta"), pwr = 1, shape1 = .1, shape2 = 1)
 {
   # Assign a number of clones to each node
   # N: number of original nodes

@@ -94,7 +94,10 @@ TOMpca<-function(data, rotate="varimax", mineigen=c(0, .7, 1), TOMType = "signed
 {
   N2 <- ncol(data)
   TOMeigmat <- list()
-  TOMeigmat[[1]] <- TOMeigmat[[2]] <- TOMeigmat[[3]] <- matrix(0, ncol=N2, nrow = N2)
+  for(i in 1:length(mineigen))
+  {
+    TOMeigmat[[i]] <- matrix(0, ncol=N2, nrow = N2)
+  }
   
   for(j in 1:(N2-1))
   {

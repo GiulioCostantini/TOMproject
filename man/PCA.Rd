@@ -1,5 +1,5 @@
-\name{collapse_PCA}
-\alias{collapse_PCA}
+\name{PCA}
+\alias{PCA}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{Automatic module detection with PCA
 }
@@ -7,7 +7,7 @@
 Perform a principal component analysis to recover the module structure of a cloned network.
 }
 \usage{
-collapse_PCA(data, N = NULL, assignments, around = 5, rep = 1000, quantile = .95, rotate = "oblimin", stoppingrule = c("easystop", "parallel", "optimal"))
+PCA(data, N = NULL, assignments, around = 5, rep = 1000, quantile = .95, rotate = "oblimin", stoppingrule = c("easystop", "parallel", "optimal"))
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
