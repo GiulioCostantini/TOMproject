@@ -8,7 +8,7 @@ Stopping rules for hierarchical cluster analysis
 Examines several stopping rules included in the package \code{\link[NbClust]{NbClust}} and \code{\link{dynamicTreeCut}} and produce a matrix of partitions.
 }
 \usage{
-StoppingRules(dist, data, method = "average")
+StoppingRules(dist, data, method = "average", rule = c("static", "dynamic", "optimal"))
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
