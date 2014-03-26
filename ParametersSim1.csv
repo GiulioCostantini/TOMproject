@@ -1,3 +1,0 @@
-N;m;topology;exact.m;force.connected;negpro;pw_ba;p_ws;minpcor;maxpcor;maxiter1;maxiter2;maxiter3;N2;method_assign;pwr;shape1;shape2;n;furthersharedvar;rndvar;p;keeporig;around;method;rule1;rule2;rule3
-10;17;BA;FALSE;TRUE;0;1;;0,1;0,3;50;1000;50;30;beta;;0,1;1;1000;0,5;0,5;0,9;TRUE;5;average;dynamic;optimal;
-10;17;BA;FALSE;TRUE;0;1;;0,1;0,3;50;1000;50;30;beta;;0,1;1;1000;0,5;0,5;0,9;TRUE;5;average;dynamic;optimal;

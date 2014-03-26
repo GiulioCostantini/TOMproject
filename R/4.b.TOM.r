@@ -1,4 +1,4 @@
-TOM <- function(data, TOMType="signed", TOMDenom = "mean", squared = FALSE, TOMPCA = FALSE, rotate="varimax", mineigen=c(0, .7, 1) )
+TOM <- function(data, TOMType="signed", TOMDenom = "mean", squared = FALSE, TOMPCA = FALSE, rotate="varimax", mineigen=c(0, .7, 1), verbose = FALSE)
 {
   
   if(!TOMPCA)
@@ -6,7 +6,7 @@ TOM <- function(data, TOMType="signed", TOMDenom = "mean", squared = FALSE, TOMP
     out <- TOMnopca(adjMat=cor(data), TOMType=TOMType, TOMDenom = TOMDenom, squared = squared, paironly = FALSE)
   } else if(TOMPCA)
   {
-    out <- TOMpca(data = data, rotate=rotate, mineigen=mineigen, TOMType=TOMType, TOMDenom = TOMDenom, squared = squared, verbose = TRUE)
+    out <- TOMpca(data = data, rotate=rotate, mineigen=mineigen, TOMType=TOMType, TOMDenom = TOMDenom, squared = squared, verbose = verbose)
   }
 out
 

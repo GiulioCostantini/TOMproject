@@ -1,5 +1,9 @@
-StoppingRules <- function(dist, data, method = "average", rule = c("static", "dynamic", "optimal"))
+StoppingRules <- function(dist, assi, data, method = "average", rule = c("static", "dynamic", "optimal"))
 {
+  
+  assignments <- c()
+  for(i in 1:length(assi)) assignments <- c(assignments, rep(i, assi[i]))
+  
   tree <- hclust(d=as.dist(dist), method=method)
   clusterings <- data.frame(matrix(nrow = ncol(data), ncol =0))
   values <- data.frame(matrix(nrow = 12, ncol=0, dimnames=list(c(
@@ -48,7 +52,7 @@ StoppingRules <- function(dist, data, method = "average", rule = c("static", "dy
         for(i in 1:length(x))
         {
           nm <- paste0("cutTreeHyb_", counter)
-          clusterings[, nm] <-  cutreeHybrid(dendro = tree, distM = dist, minClusterSize = 1,
+          clusterings[, nm] <-  cutreeHybrid_mod(dendro = tree, distM = dist, minClusterSize = 1,
                                              maxCoreScatter = dmax[i], minGap = gmin[i], 
                                              pamStage = FALSE, verbose = FALSE)$labels
           values["index", nm] <- nm
@@ -78,17 +82,17 @@ StoppingRules <- function(dist, data, method = "average", rule = c("static", "dy
                 {
                   
                   nm <- paste0("cutTreeHyb_", counter)
-                  if(maxPamDist)
+                  if(maxPamDist == "default")
                   {
                     # leave the default value for maxPamDist
-                    clusterings[, nm] <- cutreeHybrid(dendro=tree, distM=dist, minClusterSize=1,
+                    clusterings[, nm] <- cutreeHybrid_mod(dendro=tree, distM=dist, minClusterSize=1,
                                                       maxCoreScatter=dmax[i],minGap=gmin[i], 
                                                       pamStage= TRUE, pamRespectsDendro=pamRespectsDendro,
                                                       useMedoids=useMedoids, respectSmallClusters=respectSmallClusters,
                                                       verbose = 0)$labels
-                  } else {
+                  } else if (maxPamDist == "zero") {
                     # give value zero to maxPamDist
-                    clusterings[, nm] <- cutreeHybrid(dendro=tree, distM=dist, minClusterSize=1,
+                    clusterings[, nm] <- cutreeHybrid_mod(dendro=tree, distM=dist, minClusterSize=1,
                                                       maxCoreScatter=dmax[i],minGap=gmin[i], 
                                                       pamStage= TRUE, pamRespectsDendro=pamRespectsDendro,
                                                       useMedoids=useMedoids, respectSmallClusters=respectSmallClusters,
@@ -126,9 +130,6 @@ StoppingRules <- function(dist, data, method = "average", rule = c("static", "dy
     optclust <- rep(1, sum(assi))
     rand <- adjustedRandIndex(assignments, optclust)
     
-    assignments <- c()
-    for(i in 1:length(assi)) assignments <- c(assignments, rep(i, assi[i]))
-    
     for(i in 2:sum(assi))
     {
       clust <- cutree(tree, k = i)
@@ -142,7 +143,6 @@ StoppingRules <- function(dist, data, method = "average", rule = c("static", "dy
     clusterings[,"optimal"] <-optclust
     
   }
-  
   
   # when an object is not assigned by dynamic tree cut, it is turned into zero
   # we define instead a single-object cluster
