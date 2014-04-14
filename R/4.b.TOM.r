@@ -1,9 +1,8 @@
 TOM <- function(data, TOMType="signed", TOMDenom = "mean", squared = FALSE, TOMPCA = FALSE, rotate="varimax", mineigen=c(0, .7, 1), verbose = FALSE)
 {
-  
   if(!TOMPCA)
   {
-    out <- TOMnopca(adjMat=cor(data), TOMType=TOMType, TOMDenom = TOMDenom, squared = squared, paironly = FALSE)
+    out <- TOMnopca(adjMat=cor(data, use = "pairwise.complete.obs"), TOMType=TOMType, TOMDenom = TOMDenom, squared = squared, paironly = FALSE)
   } else if(TOMPCA)
   {
     out <- TOMpca(data = data, rotate=rotate, mineigen=mineigen, TOMType=TOMType, TOMDenom = TOMDenom, squared = squared, verbose = verbose)
@@ -108,7 +107,7 @@ TOMpca<-function(data, rotate="varimax", mineigen=c(0, .7, 1), TOMType = "signed
       for(k in 1:length(mineigen))
       {
         newdata[[k]]<-cbind(data[,c(i,j)], pcadata$scores[,pcadata$values > mineigen[k]])
-        TOMeigmat[[k]][i, j] <- TOMnopca(adjMat = cor(newdata[[k]]), paironly = TRUE, a = 1, b = 2, TOMType = TOMType, TOMDenom = TOMDenom, squared = squared)  
+        TOMeigmat[[k]][i, j] <- TOMnopca(adjMat = cor(newdata[[k]], use = "pairwise.complete.obs"), paironly = TRUE, a = 1, b = 2, TOMType = TOMType, TOMDenom = TOMDenom, squared = squared)  
       }
       if(verbose) print(paste(i,j))
     }

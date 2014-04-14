@@ -8,7 +8,7 @@ Variations on Topological dissimilarity Matrix (opposite of the Topological Over
 Compute several variations of the (opposite of the) Topological Overlap Matrix (Zhang & Horvath, 2005).
 }
 \usage{
-TOM(data, TOMType="signed", TOMDenom = "mean", squared = FALSE, TOMPCA = FALSE, rotate="varimax", mineigen=c(0, .7, 1) )
+TOM(data, TOMType="signed", TOMDenom = "mean", squared = FALSE, TOMPCA = FALSE, rotate="varimax", use = "pairwise.complete.obs", mineigen=c(0, .7, 1) )
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -25,7 +25,6 @@ TOM(data, TOMType="signed", TOMDenom = "mean", squared = FALSE, TOMPCA = FALSE, 
   \item{rotate}{String. Only relevant if \code{TOMPCA = TRUE}. A rotation technique for function \link[psych]{principal}.
   }
   \item{mineigen}{Vector of numerics. Only relevant if \code{TOMPCA = TRUE}. Only the component scores with eigenvalue larger than \code{mineigen} are considered in computing TOM. If the length of \code{mineigen} is >1, then a TOM matrix will be given in output for each value in \code{mineigen}.
-  
   }
 }
   
